@@ -1,8 +1,10 @@
 #################
 ## Code::Blocks
 #################
-.cbp
-.layout
+*.cbp
+*.layout
+Makefile
+*.exe
 
 #################
 ## CMake
