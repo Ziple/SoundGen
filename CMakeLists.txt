@@ -36,3 +36,11 @@ add_executable(
     ${proc_source_files}
     ${proc_header_files}
 )
+
+target_link_libraries( SoundGen optimized sfml-main )
+target_link_libraries( SoundGen optimized sfml-system )
+target_link_libraries( SoundGen optimized sfml-audio )
+
+target_link_libraries( SoundGen debug sfml-main-d )
+target_link_libraries( SoundGen debug sfml-system-d )
+target_link_libraries( SoundGen debug sfml-audio-d )
