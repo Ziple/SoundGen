@@ -5,6 +5,7 @@
 *.layout
 Makefile
 *.exe
+extlibs/
 
 #################
 ## CMake

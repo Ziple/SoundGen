@@ -29,12 +29,18 @@ namespace stzr
 
         float maxVal = 32767.0f;
         float apuls = 6.2831853f * 440.f;
+		float epuls = 6.2831853f * 329.63f;
 
         for( size_t i = 0; i < num; i++ )
         {
             float t = (float)(i+start) *myInvFreq;
-            for( size_t j = 0; j < myNumChannels; j++  )
-                sdst[ myNumChannels*i + j ] = (sf::Uint16)(0.1f * sin( apuls *  t ) * maxVal);
+			for (size_t j = 0; j < myNumChannels; j++)
+			{
+				sdst[myNumChannels*i + j] = (sf::Uint16)(0.1f * sin(apuls *  t) * maxVal);
+				if ( t > 5.f
+					 && t < 10.f )
+					 sdst[myNumChannels*i + j] = (sf::Uint16)(0.1f * sin(epuls *  t) * maxVal);
+			}
 
         }
     }
