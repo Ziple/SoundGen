@@ -13,7 +13,7 @@ namespace stzr
             size_t num )
     {
         sf::Uint16* sdst = reinterpret_cast< sf::Uint16* >( dst );
-        float invFreq = 1.0f / syn->getFrequency();
+        float invFreq = syn->getFrequencyInverse();
 
         float maxVal = 32767.0f;
 

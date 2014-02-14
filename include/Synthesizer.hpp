@@ -23,6 +23,8 @@ namespace stzr
 
         size_t getFrequency() const { return myFrequency; }
 
+        float getFrequencyInverse() const { return myInvFreq; }
+
         size_t getBytesPerSample() const { return myBytesPerSample; }
 
         size_t getNumChannels() const { return myNumChannels; }
