@@ -1,11 +1,13 @@
 #include <Synthesizer.hpp>
+#include <Guitar.hpp>
+
 #include <SFMLSoundStream.hpp>
 
 #include <SFML/Audio.hpp>
 
 int main( int argc, char** argv )
 {
-    stzr::SingleLinePartition part;
+    stzr::SingleLinePartition guitarPart;
 
     stzr::Note notes[] = {
         { 0.f, 2.f, 6.2831853f * 440.f, 0.1f },
@@ -14,7 +16,12 @@ int main( int argc, char** argv )
         { 3.f, 4.f, 6.2831853f * 440.f, 0.1f }
     };
 
-    stzr::addToPartition<4>( part, notes );
+    stzr::addToPartition<4>( guitarPart, notes );
+
+	stzr::Partition part;
+
+	stzr::Guitar* guitar = new stzr::Guitar();
+	part[guitar] = &guitarPart;
 
     stzr::Synthesizer* syn = new stzr::Synthesizer( 44100, 2, 2 );
     syn->setPartition( &part );
@@ -29,6 +36,7 @@ int main( int argc, char** argv )
     while( strM.getStatus() == sf::Music::Playing  )
         ;
 
+	delete guitar;
     delete sndStr;
     delete syn;
     return 0;

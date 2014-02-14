@@ -18,17 +18,10 @@ namespace stzr
     {
         myInvFreq = 1.0f / (float)myFrequency;
 
-        memset( myInstruments, 0, sizeof(Instrument*) * Instrument::Count );
-        myInstruments[ Instrument::Guitar ] = new stzr::Guitar();
-
     }
 
     Synthesizer::~Synthesizer()
-    {
-        for( size_t i = 0; i < Instrument::Count; i++ )
-            if( myInstruments[i] != 0 )
-                delete myInstruments[ i ];
-    }
+    {}
 
     void Synthesizer::getSamples(
         void* dst, 
@@ -38,8 +31,14 @@ namespace stzr
         sf::Int16 *sdst = reinterpret_cast< sf::Int16* >( dst );
         memset( sdst, 0, sizeof(sf::Uint16)*myNumChannels*num);
 
-        for( size_t i = 0; i < Instrument::Count; i++ )
-            if( myPartition != 0 && myInstruments[i]!= 0 )
-                myInstruments[i]->getSamples( this, myPartition, dst, start, num );
+		if ( myPartition != 0 )
+			for (Partition::iterator it = myPartition->begin();
+				it != myPartition->end();
+				it++)
+			{
+				Instrument* instr = it->first;
+				if (instr != 0 && it->second != 0 )
+					instr->getSamples(this, it->second, dst, start, num);
+			}
     }
 }

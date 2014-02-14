@@ -33,13 +33,13 @@ namespace stzr
                     {
                         float rt = t - note.StartTime;
                         float w = note.Pulsation;
-                        float f = cos(0.251f*w*rt);
-                        float y  = 0.5f*cos(1.0f*w*rt+3.14*f)*exp(-0.0007f*w*rt);
-                        y += 0.2f*cos(2.0f*w*rt+3.14*f)*exp(-0.0009f*w*rt);
-                        y += 0.2f*cos(4.0f*w*rt+3.14*f)*exp(-0.0016f*w*rt);
-                        y += 0.1f*cos(8.0f*w*rt+3.14*f)*exp(-0.0020f*w*rt);
-                        y *= 0.9f + 0.1f*cos(70.0f*rt);
-                        y = 2.0f*y*exp(-22.0f*rt) + y;
+                        float f = std::cos(0.251f*w*rt);
+                        float y = 0.5f* std::cos(1.0f*w*rt+3.14f*f) * std::exp(-0.0007f*w*rt);
+						y += 0.2f * std::cos(2.0f*w*rt + 3.14f*f) * std::exp(-0.0009f*w*rt);
+						y += 0.2f * std::cos(4.0f*w*rt + 3.14f*f) * std::exp(-0.0016f*w*rt);
+						y += 0.1f * std::cos(8.0f*w*rt + 3.14f*f) * std::exp(-0.0020f*w*rt);
+						y *= 0.9f + 0.1f * std::cos(70.0f*rt);
+						y = 2.0f*y*std::exp(-22.0f*rt) + y;
 
                         sdst[ numChannels*i + k ] += (sf::Uint16)(note.Amplitude * y * maxVal);
                     }
