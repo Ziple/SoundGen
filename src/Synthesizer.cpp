@@ -1,4 +1,5 @@
 #include <Synthesizer.hpp>
+#include <Guitar.hpp>
 
 #include <SFML/Audio.hpp>
 
@@ -12,30 +13,35 @@ namespace stzr
         size_t numChannels ):
      myFrequency( freq ),
      myBytesPerSample( bytesPerSample ),
-     myNumChannels( numChannels )
+     myNumChannels( numChannels ),
+     myPartition( 0 )
     {
         myInvFreq = 1.0f / (float)myFrequency;
+
+        memset( myInstruments, 0, sizeof(Instrument*) * Instrument::Count );
+        myInstruments[ Instrument::Guitar ] = new stzr::Guitar();
+
     }
 
     Synthesizer::~Synthesizer()
-    {}
+    {
+        for( size_t i = 0; i < Instrument::Count; i++ )
+            if( myInstruments[i] != 0 )
+                delete myInstruments[ i ];
+    }
 
     void Synthesizer::getSamples(
-        void* dst,
+        void* dst, 
         size_t start,
         size_t num )
     {
         sf::Int16 *sdst = reinterpret_cast< sf::Int16* >( dst );
+        memset( sdst, 0, sizeof(sf::Uint16)*myNumChannels*num);
 
         float maxVal = 32767.0f;
-        float apuls = 6.2831853f * 440.f;
 
-        for( size_t i = 0; i < num; i++ )
-        {
-            float t = (float)(i+start) *myInvFreq;
-            for( size_t j = 0; j < myNumChannels; j++  )
-                sdst[ myNumChannels*i + j ] = (sf::Uint16)(0.1f * sin( apuls *  t ) * maxVal);
-
-        }
+        for( size_t i = 0; i < Instrument::Count; i++ )
+            if( myPartition != 0 && myInstruments[i]!= 0 )
+                myInstruments[i]->getSamples( this, myPartition, dst, start, num );
     }
 }

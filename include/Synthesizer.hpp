@@ -1,6 +1,9 @@
 #ifndef __STZRSYNTHESIZER_HPP__
 #define __STZRSYNTHESIZER_HPP__
 
+#include <Instrument.hpp>
+#include <SingleLinePartition.hpp>
+
 namespace stzr
 {
     /**
@@ -24,6 +27,8 @@ namespace stzr
 
         size_t getNumChannels() const { return myNumChannels; }
 
+        void setPartition( SingleLinePartition* p ) { myPartition = p;}
+
         /**
          * \brief Computes the samples from the one indexed by start till start+num-1.
          * \param dst Buffer in which we place the samples
@@ -38,6 +43,10 @@ namespace stzr
         size_t myBytesPerSample;
         size_t myFrequency;
         float myInvFreq;
+
+        Instrument* myInstruments[Instrument::Count];
+
+        SingleLinePartition* myPartition;
     };
 }
 
